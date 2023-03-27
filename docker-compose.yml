@@ -1,0 +1,72 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+networks:
+  red-tms:
+volumes:
+  vol-tms:
+
+services:
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=a
+      - POSTGRES_DB=almacenes
+    volumes:
+      - vol-tms:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - red-tms
+
+  catalogos:
+    image: yisus377/catalogos
+    build:
+      context: .  
+      dockerfile: catalogos.dockerfile
+    ports:
+      - 8005:8005
+    depends_on:
+      - postgres
+    networks:
+      - red-tms
+
+  procesos:
+    image: yisus377/procesos
+    build:
+      context: .  
+      dockerfile: procesos.Dockerfile
+    ports:
+      - 8006:8006
+    depends_on:
+      - postgres
+    networks:
+      - red-tms
+
+  store:
+    image: yisus377/store
+    build: 
+      context: .  
+      dockerfile: store.Dockerfile
+    ports:
+      - 8004:8004
+    depends_on:
+      - catalogos
+      - procesos
+    networks:
+      - red-tms
+
+  appweb:
+    image: yisus377/reactapp
+    build:
+      context: appweb
+      dockerfile: Dockerfile
+    ports:
+      - 8007:3000
+    depends_on:
+      - store
+    networks:
+      - red-tms
+

@@ -1,0 +1,4 @@
+dotnet ef dbcontext scaffold "Host=localhost;Database=postgres;Username=a;Password=password" Npgsql.EntityFrameworkCore.PostgreSQL --output-dir Models -f
+dotnet new --list , dontnet new (webapi) (-o <nomCArpeta>) , ctrl+p nugget
+dotnet tool install --global dotnet-ef
+dotnet add reference /home/yisus37/Escritorio/devs/dbModel  {agregar referencia}

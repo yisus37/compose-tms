@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Docker .NET Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/store/store.csproj"
+            }
+        },
+        {
+            "name": "Docker Node.js Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "platform": "node",
+            "node": {
+                "package": "${workspaceFolder}/react-app/package.json",
+                "localRoot": "${workspaceFolder}/react-app"
+            }
+        }
+    ]
+}
